@@ -1,22 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <VBox alignment="CENTER" spacing="10" prefWidth="400" prefHeight="500">
-            <Label text="Sudoku 6x6" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-alignment: center;" />
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-            <GridPane fx:id="sudokuGrid" hgap="5" vgap="5" alignment="CENTER" style="-fx-border-color: black;">
-                <!-- Celdas generadas dinámicamente en el controlador -->
-            </GridPane>
-
-            <HBox alignment="CENTER" spacing="10">
-                <Button text="Nuevo Juego" fx:id="newGameButton"/>
-                <!-- <Button text="Resolver" fx:id="solveButton" onAction="#resolverSudoku" />-->
-                <Button text="Reiniciar" fx:id="resetButton"/>
-                <Button text="Ayuda" fx:id="helpButton"/>
+<BorderPane prefHeight="600.0" prefWidth="600.0" stylesheets="@styles/sudoku.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+            <HBox alignment="CENTER" spacing="20">
+                <Label fx:id="lblJugador" styleClass="label" text="Jugador: " />
             </HBox>
         </VBox>
-    </children>
-</AnchorPane>
+    </top>
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <GridPane fx:id="cuadricula" alignment="CENTER" hgap="1" style="-fx-padding: 10; -fx-background-color: white;" vgap="1" />
+            <Label fx:id="lblTemporizador" styleClass="label-timer" text="Tiempo: 00:00" />
+        </VBox>
+    </center>
+    <right>
+        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 10;">
+            <HBox alignment="TOP_RIGHT">
+                <Button fx:id="btnReglas" styleClass="btn-reglas" text="?" />
+            </HBox>
+            <Label styleClass="label-title centered-title" text="CONTROLES" />
+            <Button fx:id="btnNuevoJuego" maxWidth="Infinity" styleClass="btn-control" text="Nuevo Juego" />
+            <Button fx:id="btnReiniciar" maxWidth="Infinity" styleClass="btn-control" text="Reiniciar" />
+            <Separator styleClass="centered-separator" />
+            <Label styleClass="label-title centered-title" text="AYUDA" />
+            <Button fx:id="btnAyuda" maxWidth="Infinity" styleClass="btn-control" text="Sugerir número" />
+            <Label fx:id="lblMensaje" maxWidth="200" styleClass="centered-message" wrapText="true" />
+            <Separator styleClass="centered-separator" />
+            <Button fx:id="btnSalir" maxWidth="Infinity" styleClass="btn-salir" text="Salir" />
+        </VBox>
+    </right>
+</BorderPane>
