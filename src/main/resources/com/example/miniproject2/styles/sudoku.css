@@ -1,0 +1,109 @@
+/**
+ * Archivo de estilos CSS optimizado para la aplicación Sudoku 6x6
+ */
+
+/* ================= ESTILOS GENERALES ================= */
+.root, .border-pane {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #f8f8f8;
+}
+
+/* ================= CUADRÍCULA ================= */
+.grid-pane {
+    -fx-background-color: white;
+    -fx-padding: 15;
+}
+
+/* ================= PANEL DE CONTROLES ================= */
+.vbox {
+    -fx-spacing: 10;
+    -fx-padding: 15;
+    -fx-background-color: #f8f8f8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-alignment: center;
+}
+
+/* ================= BOTONES ================= */
+.btn-reglas {
+    -fx-background-color: transparent;
+    -fx-border-color: #5a7fb5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #5a7fb5;
+}
+
+.btn-reglas:hover {
+    -fx-background-color: #e6f3ff;
+}
+
+.btn-control {
+    -fx-background-color: #5a7fb5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.btn-control:hover {
+    -fx-background-color: #4a6fa5;
+}
+
+.btn-salir {
+    -fx-background-color: #d9534f;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.btn-salir:hover {
+    -fx-background-color: #c9302c;
+}
+
+/* ================= TEMPORIZADOR ================= */
+.label-timer {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d5985;
+    -fx-padding: 10px 0;
+    -fx-alignment: center;
+}
+
+/* ================= ETIQUETAS ================= */
+.label {
+    -fx-font-size: 14px;
+}
+
+.label-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: #2d5985;
+}
+
+/* ================= ESTILOS PARA CENTRADO ================= */
+.centered-title {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-max-width: Infinity;
+    -fx-padding: 5px 0;
+}
+
+.centered-separator {
+    -fx-padding: 5px 0;
+    -fx-max-width: Infinity;
+}
+
+.centered-message {
+    -fx-text-fill: #2d5985;
+    -fx-font-size: 12px;
+    -fx-padding: 5 0;
+    -fx-alignment: center-left;
+    -fx-text-alignment: left;
+    -fx-wrap-text: true;
+    -fx-max-width: 250px;
+}
