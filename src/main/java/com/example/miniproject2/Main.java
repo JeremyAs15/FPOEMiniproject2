@@ -1,5 +1,7 @@
 package com.example.miniproject2;
 
+import com.example.miniproject2.controller.SudokuController;
+import com.example.miniproject2.model.SudokuModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,7 +24,7 @@ public class Main extends Application {
                 getClass().getResource("/com/example/miniproject2/SudokuView.fxml")
         );
         Parent raiz = cargador.load();
-
+        SudokuModel modelo = new SudokuModel();
         Scene escena = new Scene(raiz, 600, 600);
         URL urlCSS = getClass().getResource("/com/example/miniproject2/styles/sudoku.css");
         if (urlCSS != null) {
