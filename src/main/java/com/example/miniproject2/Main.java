@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import java.net.URL;
 
@@ -25,15 +26,24 @@ public class Main extends Application {
         );
         Parent raiz = cargador.load();
         SudokuModel modelo = new SudokuModel();
-        Scene escena = new Scene(raiz, 600, 600);
-        URL urlCSS = getClass().getResource("/com/example/miniproject2/styles/sudoku.css");
-        if (urlCSS != null) {
-            escena.getStylesheets().add(urlCSS.toExternalForm());
-        }
+        SudokuController controlador = new SudokuController(modelo);
 
-        escenarioPrincipal.setTitle("Sudoku 6x6");
-        escenarioPrincipal.setScene(escena);
-        escenarioPrincipal.show();
+        TextInputDialog dialogo = new TextInputDialog("Jugador");
+        dialogo.setTitle("Bienvenido a Sudoku");
+        dialogo.setHeaderText("Ingrese su nombre para comenzar");
+        dialogo.showAndWait().ifPresent(nombre -> {
+            controlador.setNombreJugador(nombre);
+
+
+            Scene escena = new Scene(raiz, 600, 600);
+            URL urlCSS = getClass().getResource("/com/example/miniproject2/view/styles/sudoku.css");
+            if (urlCSS != null) escena.getStylesheets().add(urlCSS.toExternalForm());
+
+            escenarioPrincipal.setTitle("Sudoku 6x6");
+            escenarioPrincipal.setScene(escena);
+            escenarioPrincipal.show();
+        });
+
     }
     /**
      * Método principal de la aplicación.
@@ -41,5 +51,4 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
-    }
-}
+}}
