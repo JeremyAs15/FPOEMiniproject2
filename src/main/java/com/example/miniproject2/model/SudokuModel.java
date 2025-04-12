@@ -2,7 +2,6 @@ package com.example.miniproject2.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 /**
  * Modelo del juego Sudoku 6x6.
@@ -14,7 +13,6 @@ public class SudokuModel {
     private static final int TAMANO = 6;
     private static final int ANCHO_BLOQUE = 3;
     private static final int ALTO_BLOQUE = 2;
-    private Random aleatorio = new Random();
 
     /**
      * Constructor que inicializa el modelo del Sudoku.
@@ -124,7 +122,7 @@ public class SudokuModel {
             if (solucionCompleta.get(r).get(columna) == numero) return false;
         }
 
-        // Verificar bloque 3x2
+        // Verificar bloque 2x3
         int inicioFilaBloque = fila - fila % ALTO_BLOQUE;
         int inicioColumnaBloque = columna - columna % ANCHO_BLOQUE;
 
@@ -192,33 +190,6 @@ public class SudokuModel {
      */
     public boolean esCeldaInicial(int fila, int columna) {
         return tableroInicial.get(fila).get(columna) != 0;
-    }
-
-    /**
-     * Sugiere un número válido para una posición específica.
-     * @param fila Fila de la celda para la sugerencia
-     * @param columna Columna de la celda para la sugerencia
-     * @return Un número válido aleatorio o 0 si no hay movimientos válidos
-     */
-    public int sugerirNumero(int fila, int columna) {
-        ArrayList<Integer> posibles = new ArrayList<>();
-        for (int num = 1; num <= TAMANO; num++) {
-            if (movimientoValido(fila, columna, num)) {
-                posibles.add(num);
-            }
-        }
-        return posibles.isEmpty() ? 0 : posibles.get(aleatorio.nextInt(posibles.size()));
-    }
-
-    /**
-     * Reinicia el tablero al estado inicial
-     */
-    public void reiniciarTablero() {
-        for (int fila = 0; fila < TAMANO; fila++) {
-            for (int columna = 0; columna < TAMANO; columna++) {
-                tablero.get(fila).set(columna, tableroInicial.get(fila).get(columna));
-            }
-        }
     }
 
     /**

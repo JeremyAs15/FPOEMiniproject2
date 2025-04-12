@@ -321,3 +321,6 @@ public class SudokuView {
         this.controlador = controlador;
     }
 }
+
+
+

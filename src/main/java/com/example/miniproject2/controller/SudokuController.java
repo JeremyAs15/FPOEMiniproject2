@@ -11,8 +11,9 @@ import javafx.util.Duration;
 import java.util.Optional;
 
 /**
- * Controlador principal del juego Sudoku 6x6.
- * Gestiona la interacción con el modelo y la lógica del juego.
+ * Controlador principal del juego.
+ * Gestiona la interacción entre el modelo y la vista),
+ * manejando la lógica del juego, validaciones, temporizador y flujo del juego.
  */
 public class SudokuController {
     private final SudokuModel modelo;
@@ -22,6 +23,12 @@ public class SudokuController {
     private String nombreJugador;
     private static final int TAMANO = 6;
 
+    /**
+     * Constructor que inicializa el controlador con el modelo y vista proporcionados.
+     *
+     * @param modelo El modelo del juego
+     * @param vista La vista del juego
+     */
     public SudokuController(SudokuModel modelo, SudokuView vista) {
         this.modelo = modelo;
         this.vista = vista;
@@ -29,10 +36,21 @@ public class SudokuController {
         inicializarTemporizador();
     }
 
+    /**
+     * Establece el nombre del jugador.
+     *
+     * @param nombre Nombre del jugador
+     */
     public void setNombreJugador(String nombre) {
         this.nombreJugador = nombre;
     }
 
+    /**
+     * Inicia un nuevo juego después de confirmación del usuario.
+     * Genera un nuevo tablero, reinicia el temporizador y actualiza la vista.
+     *
+     * @param nombre Nombre del jugador para mostrar en la interfaz
+     */
     public void iniciarNuevoJuego(String nombre) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar nuevo juego");
@@ -47,11 +65,15 @@ public class SudokuController {
             actualizarVistaCompleta();
             vista.setCeldasEditables(true);
             vista.limpiarResaltados();
-            vista.mostrarMensaje("Nuevo juego.", "nuevo-juego");
+            vista.mostrarMensaje("¡Nuevo juego!", "nuevo-juego");
             temporizador.play();
         }
     }
 
+    /**
+     * Reinicia el juego actual después de confirmación del usuario.
+     * Limpia todas las celdas no iniciales y reinicia el temporizador.
+     */
     public void reiniciarJuego() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar reinicio");
@@ -72,11 +94,18 @@ public class SudokuController {
             reiniciarTemporizador();
             vista.setCeldasEditables(true);
             vista.limpiarResaltados();
-            vista.mostrarMensaje("Juego reiniciado", "reinicio");
+            vista.mostrarMensaje("¡Juego reiniciado!", "reinicio");
             temporizador.play();
         }
     }
 
+    /**
+     * Valida una entrada del usuario en una celda específica.
+     *
+     * @param fila Índice de la fila (0-5)
+     * @param columna Índice de la columna (0-5)
+     * @param numero Número ingresado por el usuario (0-6)
+     */
     public void validarEntrada(int fila, int columna, int numero) {
         if (esCeldaInicial(fila, columna)) return;
 
@@ -102,6 +131,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Muestra un mensaje de felicitación cuando el juego se completa.
+     */
     private void mostrarMensajeFelicitacion() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("¡Felicidades!");
@@ -110,6 +142,9 @@ public class SudokuController {
         alert.showAndWait();
     }
 
+    /**
+     * Proporciona ayuda al jugador mostrando el número correcto para la primera celda vacía encontrada.
+     */
     public void solicitarAyuda() {
         for (int fila = 0; fila < TAMANO; fila++) {
             for (int columna = 0; columna < TAMANO; columna++) {
@@ -126,6 +161,9 @@ public class SudokuController {
         vista.mostrarMensaje("¡Sudoku Completado!", "exito");
     }
 
+    /**
+     * Actualiza toda la vista con los valores actuales del modelo.
+     */
     private void actualizarVistaCompleta() {
         for (int fila = 0; fila < TAMANO; fila++) {
             for (int columna = 0; columna < TAMANO; columna++) {
@@ -134,6 +172,9 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Inicializa el temporizador del juego que se ejecuta cada segundo.
+     */
     private void inicializarTemporizador() {
         temporizador = new Timeline(
                 new KeyFrame(Duration.seconds(1), evento -> {
@@ -144,20 +185,40 @@ public class SudokuController {
         temporizador.setCycleCount(Animation.INDEFINITE);
     }
 
+    /**
+     * Reinicia el temporizador del juego a cero.
+     */
     private void reiniciarTemporizador() {
         temporizador.stop();
         segundos = 0;
         vista.actualizarTemporizador("00:00");
     }
 
+    /**
+     * Verifica si una celda es parte del tablero inicial (no editable).
+     *
+     * @param fila Índice de la fila
+     * @param columna Índice de la columna
+     * @return true si la celda es parte del tablero inicial, false en caso contrario
+     */
     public boolean esCeldaInicial(int fila, int columna) {
         return modelo.esCeldaInicial(fila, columna);
     }
 
+    /**
+     * Obtiene el nombre del jugador actual.
+     *
+     * @return Nombre del jugador
+     */
     public String getNombreJugador() {
         return nombreJugador;
     }
 
+    /**
+     * Devuelve las reglas del juego formateadas como texto.
+     *
+     * @return String con las reglas del juego
+     */
     public String obtenerTextoReglas() {
         return "REGLAS DEL SUDOKU 6x6:\n\n" +
                 "1. Completa la cuadrícula con números del 1 al 6.\n" +
@@ -166,6 +227,12 @@ public class SudokuController {
                 "4. Usa el botón 'Sugerir número' para obtener ayuda.";
     }
 
+    /**
+     * Formatea un tiempo en segundos a formato MM:SS.
+     *
+     * @param segundosTotales Tiempo total en segundos
+     * @return String formateado como MM:SS
+     */
     private String formatearTiempo(int segundosTotales) {
         int minutos = segundosTotales / 60;
         int segundos = segundosTotales % 60;
