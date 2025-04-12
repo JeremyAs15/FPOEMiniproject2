@@ -2,6 +2,7 @@ package com.example.miniproject2;
 
 import com.example.miniproject2.controller.SudokuController;
 import com.example.miniproject2.model.SudokuModel;
+import com.example.miniproject2.view.SudokuView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,20 +21,20 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage escenarioPrincipal) throws Exception {
-
-        FXMLLoader cargador = new FXMLLoader(
-                getClass().getResource("/com/example/miniproject2/SudokuView.fxml")
-        );
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/com/example/miniproject2/SudokuView.fxml"));
         Parent raiz = cargador.load();
+
+        SudokuView vista = cargador.getController();
         SudokuModel modelo = new SudokuModel();
-        SudokuController controlador = new SudokuController(modelo);
+        SudokuController controlador = new SudokuController(modelo, vista);
 
         TextInputDialog dialogo = new TextInputDialog("Jugador");
         dialogo.setTitle("Bienvenido a Sudoku");
         dialogo.setHeaderText("Ingrese su nombre para comenzar");
         dialogo.showAndWait().ifPresent(nombre -> {
             controlador.setNombreJugador(nombre);
-
+            vista.mostrarNombreJugador(nombre);
+            vista.mostrarTableroVacio();
 
             Scene escena = new Scene(raiz, 600, 600);
             URL urlCSS = getClass().getResource("/com/example/miniproject2/view/styles/sudoku.css");
