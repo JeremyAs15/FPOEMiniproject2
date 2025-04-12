@@ -16,10 +16,14 @@ import java.util.Optional;
 public class SudokuView {
     @FXML private GridPane cuadricula;
     @FXML private Button btnNuevoJuego, btnAyuda, btnReiniciar, btnReglas, btnSalir;
-    @FXML private Label lblTemporizador, lblJugador, lblMensaje;
+    @FXML private Label lblTemporizador, lblJugador, lblMensaje, lblContadorSeis;
 
     private TextField[][] celdas = new TextField[6][6];
     private SudokuController controlador;
+
+    public void actualizarContadorSeis(int cantidad) {
+        lblContadorSeis.setText("Número 6: " + cantidad);
+    }
 
     /**
      * Metodo de inicialización que Configura la cuadrícula y los botones del juego.
@@ -133,6 +137,20 @@ public class SudokuView {
                     controlador.validarEntrada(fila, columna, 0);
                 }
             }
+
+        celda.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.matches("[1-6]?")) {
+                celda.setText(oldVal);
+            } else {
+                if (controlador != null) {
+                    int valorAnterior = oldVal.isEmpty() ? 0 : Integer.parseInt(oldVal);
+                    int valorNuevo = newVal.isEmpty() ? 0 : Integer.parseInt(newVal);
+                    if (valorAnterior == 6 || valorNuevo == 6) {
+                        controlador.actualizarContadorSeis();
+                        }
+                    }
+                }
+            });
         });
     }
 
@@ -321,6 +339,7 @@ public class SudokuView {
         this.controlador = controlador;
     }
 }
+
 
 
 

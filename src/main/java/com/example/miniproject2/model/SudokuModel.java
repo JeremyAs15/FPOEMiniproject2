@@ -43,12 +43,24 @@ public class SudokuModel {
         generarSolucionCompleta();
         imprimirSolucion();
 
-        for (int bloqueFila = 0; bloqueFila < TAMANO / ALTO_BLOQUE; bloqueFila++) {
+        for (int fila = 0; fila < 2; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                int valor = solucionCompleta.get(fila).get(columna);
+                tablero.get(fila).set(columna, valor);
+                tableroInicial.get(fila).set(columna, valor);
+            }
+        }
+
+        for (int bloqueFila = 1; bloqueFila < TAMANO / ALTO_BLOQUE; bloqueFila++) {
             for (int bloqueCol = 0; bloqueCol < TAMANO / ANCHO_BLOQUE; bloqueCol++) {
                 ArrayList<int[]> posiciones = new ArrayList<>();
                 for (int i = 0; i < ALTO_BLOQUE; i++) {
                     for (int j = 0; j < ANCHO_BLOQUE; j++) {
-                        posiciones.add(new int[]{bloqueFila * ALTO_BLOQUE + i, bloqueCol * ANCHO_BLOQUE + j});
+                        int filaActual = bloqueFila * ALTO_BLOQUE + i;
+
+                        if (filaActual >= 2) {
+                            posiciones.add(new int[]{filaActual, bloqueCol * ANCHO_BLOQUE + j});
+                        }
                     }
                 }
                 Collections.shuffle(posiciones);

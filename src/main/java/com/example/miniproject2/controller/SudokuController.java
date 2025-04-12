@@ -68,6 +68,8 @@ public class SudokuController {
             vista.mostrarMensaje("¡Nuevo juego!", "nuevo-juego");
             temporizador.play();
         }
+        actualizarContadorSeis();
+
     }
 
     /**
@@ -97,6 +99,20 @@ public class SudokuController {
             vista.mostrarMensaje("¡Juego reiniciado!", "reinicio");
             temporizador.play();
         }
+        actualizarContadorSeis();
+
+    }
+
+    public void actualizarContadorSeis() {
+        int contador = 0;
+        for (int fila = 0; fila < TAMANO; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                if (modelo.obtenerNumero(fila, columna) == 6) {
+                    contador++;
+                }
+            }
+        }
+        vista.actualizarContadorSeis(contador);
     }
 
     /**
@@ -109,10 +125,14 @@ public class SudokuController {
     public void validarEntrada(int fila, int columna, int numero) {
         if (esCeldaInicial(fila, columna)) return;
 
+        int valorAnterior = modelo.obtenerNumero(fila, columna);
+
         if (numero == 0) {
             modelo.establecerNumero(fila, columna, 0);
             vista.limpiarResaltados();
-            vista.mostrarMensaje("Solo se permiten números del 1 al 6", "error");
+            if (valorAnterior == 6) {
+                actualizarContadorSeis();
+            }
             return;
         }
 
@@ -120,6 +140,9 @@ public class SudokuController {
             modelo.establecerNumero(fila, columna, numero);
             vista.limpiarResaltados();
             vista.mostrarMensaje("", null);
+            if (numero == 6 || valorAnterior == 6) {
+                actualizarContadorSeis();
+            }
 
             if (modelo.juegoCompleto()) {
                 temporizador.stop();

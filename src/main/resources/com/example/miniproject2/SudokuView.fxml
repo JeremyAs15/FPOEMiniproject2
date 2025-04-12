@@ -12,7 +12,8 @@
 <BorderPane prefHeight="600.0" prefWidth="600.0" stylesheets="@styles/sudoku.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject2.view.SudokuView">
     <center>
         <VBox alignment="CENTER" spacing="10">
-            <Label fx:id="lblJugador" styleClass="label" text="Jugador: " />
+            <Label fx:id="lblJugador" styleClass="label-jugador" text="Jugador: " />
+            <Label fx:id="lblContadorSeis" styleClass="label-contador" text="Números 6: 0" />
             <GridPane fx:id="cuadricula" alignment="CENTER" hgap="1" style="-fx-padding: 10; -fx-background-color: white;" vgap="1" />
             <Label fx:id="lblTemporizador" styleClass="label-timer" text="Tiempo: 00:00" />
         </VBox>

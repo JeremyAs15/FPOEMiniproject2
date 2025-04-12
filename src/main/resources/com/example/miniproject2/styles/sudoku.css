@@ -240,3 +240,11 @@
     -fx-effect: dropshadow(three-pass-box, rgba(255,160,122,0.8), 5, 0, 0, 0);
     -fx-transition: all 0.3s;
 }
+
+/* ================= ETIQUETA CONTADOR 6 ================= */
+.label-contador {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: red;
+    -fx-padding: 0 0 5 0;
+}
