@@ -16,6 +16,7 @@ public class Main extends Application {
      * Método de inicio.
      *
      * @author Juan Felipe Chapal 2415537 - Jeremy Astaiza 2415667
+     * @version 1.0
      * @param escenarioPrincipal El escenario principal que proporciona JavaFX
      * @throws Exception Para el caso en que ocurra un error al momento de cargar el la función "start"
      */
