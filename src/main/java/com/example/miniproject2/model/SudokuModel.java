@@ -43,8 +43,23 @@ public class SudokuModel {
         generarSolucionCompleta();
         imprimirSolucion();
 
+        for (int fila = 0; fila < TAMANO; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                tablero.get(fila).set(columna, 0);
+            }
+        }
+
+        for (int fila = 0; fila < 2; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                tablero.get(fila).set(columna, solucionCompleta.get(fila).get(columna));
+                tableroInicial.get(fila).set(columna, solucionCompleta.get(fila).get(columna));
+            }
+        }
         for (int bloqueFila = 0; bloqueFila < TAMANO / ALTO_BLOQUE; bloqueFila++) {
             for (int bloqueCol = 0; bloqueCol < TAMANO / ANCHO_BLOQUE; bloqueCol++) {
+                if (bloqueFila * ALTO_BLOQUE < 2) {
+                    continue;
+                }
                 ArrayList<int[]> posiciones = new ArrayList<>();
                 for (int i = 0; i < ALTO_BLOQUE; i++) {
                     for (int j = 0; j < ANCHO_BLOQUE; j++) {
@@ -69,6 +84,7 @@ public class SudokuModel {
             }
         }
     }
+
 
     /**
      * Genera una solución completa válida para el tablero de Sudoku.

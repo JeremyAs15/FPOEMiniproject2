@@ -14,6 +14,7 @@
         <VBox alignment="CENTER" spacing="10">
             <Label fx:id="lblJugador" styleClass="label" text="Jugador: " />
             <GridPane fx:id="cuadricula" alignment="CENTER" hgap="1" style="-fx-padding: 10; -fx-background-color: white;" vgap="1" />
+            <Label fx:id="lblNumerosSeis" styleClass="label-seis" text="Cantidad de 6 en pantalla: 0" />
             <Label fx:id="lblTemporizador" styleClass="label-timer" text="Tiempo: 00:00" />
         </VBox>
     </center>

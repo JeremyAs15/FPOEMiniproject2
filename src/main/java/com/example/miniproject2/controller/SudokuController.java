@@ -22,6 +22,7 @@ public class SudokuController {
     private int segundos = 0;
     private String nombreJugador;
     private static final int TAMANO = 6;
+    private int contadorNumeroSeis = 0;
 
     /**
      * Constructor que inicializa el controlador con el modelo y vista proporcionados.
@@ -113,6 +114,9 @@ public class SudokuController {
             modelo.establecerNumero(fila, columna, 0);
             vista.limpiarResaltados();
             vista.mostrarMensaje("Solo se permiten números del 1 al 6", "error");
+            if (modelo.obtenerNumero(fila, columna) == 6) {
+                actualizarContadorNumeroSeis();
+            }
             return;
         }
 
@@ -120,6 +124,10 @@ public class SudokuController {
             modelo.establecerNumero(fila, columna, numero);
             vista.limpiarResaltados();
             vista.mostrarMensaje("", null);
+
+            if (numero == 6 || modelo.obtenerNumero(fila, columna) == 6 ) {
+                actualizarContadorNumeroSeis();
+            }
 
             if (modelo.juegoCompleto()) {
                 temporizador.stop();
@@ -170,6 +178,18 @@ public class SudokuController {
                 vista.actualizarCelda(fila, columna, modelo.obtenerNumero(fila, columna));
             }
         }
+    }
+
+    public void actualizarContadorNumeroSeis() {
+        int contadorNumeroSeis = 0;
+        for (int fila = 0; fila < TAMANO; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                if (modelo.obtenerNumero(fila, columna) == 6) {
+                    contadorNumeroSeis++;
+                }
+            }
+        }
+        vista.actualizarNumeroSeis(contadorNumeroSeis);
     }
 
     /**

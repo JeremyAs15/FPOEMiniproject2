@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SudokuView {
     @FXML private GridPane cuadricula;
     @FXML private Button btnNuevoJuego, btnAyuda, btnReiniciar, btnReglas, btnSalir;
-    @FXML private Label lblTemporizador, lblJugador, lblMensaje;
+    @FXML private Label lblTemporizador, lblJugador, lblMensaje,lblNumerosSeis;
 
     private TextField[][] celdas = new TextField[6][6];
     private SudokuController controlador;
@@ -28,6 +28,7 @@ public class SudokuView {
     public void initialize() {
         configurarCuadricula();
         configurarBotones();
+        lblNumerosSeis.setText("Cantidad de 6 en pantalla: 0");
     }
 
     /**
@@ -111,6 +112,22 @@ public class SudokuView {
             celda.setStyle(estiloBase);
         }
 
+        celda.textProperty().addListener((observable, valorPrevio, valorActual) -> {
+            boolean esValido = valorActual.isEmpty() || valorActual.matches("[1-6]");
+            if (!esValido) {
+                celda.setText(valorPrevio);
+            } else {
+                if (controlador != null) {
+                    int anterior = valorPrevio.isEmpty() ? 0 : Integer.parseInt(valorPrevio);
+                    int actual = valorActual.isEmpty() ? 0 : Integer.parseInt(valorActual);
+                    boolean numeroSeis = anterior == 6 || actual == 6;
+                    if (numeroSeis) {
+                        controlador.actualizarContadorNumeroSeis();
+                    }
+                }
+            }
+        });
+
         celda.setOnMouseEntered(e -> {
             if (controlador != null && !controlador.esCeldaInicial(fila, columna)) {
                 celda.setStyle(estiloBase + "-fx-background-color: #e6f3ff;");
@@ -119,16 +136,11 @@ public class SudokuView {
 
         celda.setOnMouseExited(e -> actualizarEstiloCelda(celda, fila, columna));
 
-        celda.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.matches("[1-6]?")) {
-                celda.setText(oldVal);
-            }
-        });
-
         celda.setOnKeyReleased(e -> {
             if (controlador != null && celda.isEditable()) {
                 if (!celda.getText().isEmpty()) {
                     controlador.validarEntrada(fila, columna, Integer.parseInt(celda.getText()));
+                    controlador.actualizarContadorNumeroSeis();
                 } else {
                     controlador.validarEntrada(fila, columna, 0);
                 }
@@ -149,6 +161,10 @@ public class SudokuView {
         } else {
             celda.setStyle(estiloBase);
         }
+    }
+
+    public void actualizarNumeroSeis (int numero) {
+        lblNumerosSeis.setText("Cantidad de 6 en pantalla: " + numero);
     }
 
     /**
