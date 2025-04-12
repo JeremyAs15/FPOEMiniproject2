@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="600.0" stylesheets="@styles/sudoku.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="600.0" prefWidth="600.0" stylesheets="@styles/sudoku.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject2.view.SudokuView">
     <top>
         <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
             <HBox alignment="CENTER" spacing="20">

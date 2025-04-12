@@ -1,6 +1,7 @@
 package com.example.miniproject2.controller;
 
 import com.example.miniproject2.model.SudokuModel;
+import com.example.miniproject2.view.SudokuView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,13 +16,16 @@ import java.util.Optional;
  */
 public class SudokuController {
     private final SudokuModel modelo;
+    private final SudokuView vista;
     private Timeline temporizador;
     private int segundos = 0;
     private String nombreJugador;
     private static final int TAMANO = 6;
 
-    public SudokuController(SudokuModel modelo) {
+    public SudokuController(SudokuModel modelo, SudokuView vista) {
         this.modelo = modelo;
+        this.vista = vista;
+        this.vista.setControlador(this);
         inicializarTemporizador();
     }
 
@@ -39,6 +43,11 @@ public class SudokuController {
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             modelo.generarNuevoTablero();
             reiniciarTemporizador();
+            vista.mostrarNombreJugador(nombreJugador);
+            actualizarVistaCompleta();
+            vista.setCeldasEditables(true);
+            vista.limpiarResaltados();
+            vista.mostrarMensaje("Nuevo juego.", "nuevo-juego");
             temporizador.play();
         }
     }
@@ -58,7 +67,12 @@ public class SudokuController {
                     }
                 }
             }
+            vista.resaltarReinicio();
+            actualizarVistaCompleta();
             reiniciarTemporizador();
+            vista.setCeldasEditables(true);
+            vista.limpiarResaltados();
+            vista.mostrarMensaje("Juego reiniciado", "reinicio");
             temporizador.play();
         }
     }
@@ -68,16 +82,23 @@ public class SudokuController {
 
         if (numero == 0) {
             modelo.establecerNumero(fila, columna, 0);
+            vista.limpiarResaltados();
+            vista.mostrarMensaje("Solo se permiten números del 1 al 6", "error");
             return;
         }
 
         if (modelo.movimientoValido(fila, columna, numero)) {
             modelo.establecerNumero(fila, columna, numero);
+            vista.limpiarResaltados();
+            vista.mostrarMensaje("", null);
 
             if (modelo.juegoCompleto()) {
                 temporizador.stop();
                 mostrarMensajeFelicitacion();
             }
+        } else {
+            vista.resaltarError(fila,columna);
+            vista.mostrarMensaje("¡Número Inválido!", "error");
         }
     }
 
@@ -94,8 +115,21 @@ public class SudokuController {
             for (int columna = 0; columna < TAMANO; columna++) {
                 if (modelo.obtenerNumero(fila, columna) == 0) {
                     int numeroCorrecto = modelo.obtenerNumeroCorrecto(fila, columna);
+                    vista.mostrarMensaje(
+                            String.format("Número correcto: %d", numeroCorrecto), "ayuda"
+                    );
+                    vista.resaltarCelda(fila, columna, "#FFD700");
                     return;
                 }
+            }
+        }
+        vista.mostrarMensaje("¡Sudoku Completado!", "exito");
+    }
+
+    private void actualizarVistaCompleta() {
+        for (int fila = 0; fila < TAMANO; fila++) {
+            for (int columna = 0; columna < TAMANO; columna++) {
+                vista.actualizarCelda(fila, columna, modelo.obtenerNumero(fila, columna));
             }
         }
     }
@@ -104,6 +138,7 @@ public class SudokuController {
         temporizador = new Timeline(
                 new KeyFrame(Duration.seconds(1), evento -> {
                     segundos++;
+                    vista.actualizarTemporizador(formatearTiempo(segundos));
                 })
         );
         temporizador.setCycleCount(Animation.INDEFINITE);
@@ -112,6 +147,7 @@ public class SudokuController {
     private void reiniciarTemporizador() {
         temporizador.stop();
         segundos = 0;
+        vista.actualizarTemporizador("00:00");
     }
 
     public boolean esCeldaInicial(int fila, int columna) {
@@ -134,14 +170,5 @@ public class SudokuController {
         int minutos = segundosTotales / 60;
         int segundos = segundosTotales % 60;
         return String.format("%02d:%02d", minutos, segundos);
-    }
-
-    // Métodos para acceso al estado del juego
-    public int obtenerNumeroCelda(int fila, int columna) {
-        return modelo.obtenerNumero(fila, columna);
-    }
-
-    public int getTiempoTranscurrido() {
-        return segundos;
     }
 }
